@@ -1,0 +1,72 @@
+<div class="login">
+  <!-- ============== LEFT: branded panel ============== -->
+  <aside class="login__brand">
+    <span class="login__orb login__orb--1" aria-hidden="true"></span>
+    <span class="login__orb login__orb--2" aria-hidden="true"></span>
+    <div class="login__grid" aria-hidden="true"></div>
+
+    <div class="login__brand-inner">
+      <img
+        class="login__logo"
+        src="assets/psh-logo.svg"
+        alt="Pakistan Sweet Home"
+      />
+      <h2 class="login__tagline">Manage your customers,<br />all in one place.</h2>
+      <p class="login__brand-text">
+        The complete CRM for Pakistan Sweet Home — relationships,
+        records, and results, beautifully organised.
+      </p>
+    </div>
+
+    <footer class="login__brand-foot">
+      © Pakistan Sweet Home
+    </footer>
+  </aside>
+
+  <!-- ============== RIGHT: form panel ============== -->
+  <main class="login__panel">
+    <div class="login__form-wrap">
+      <header class="login__head">
+        <h1 class="login__title">Welcome back</h1>
+        <p class="login__subtitle">Sign in to continue to your dashboard</p>
+      </header>
+
+      <!--
+        TODO (your Angular task):
+          - add [formGroup]="loginForm" to <form>
+          - add (ngSubmit)="onSubmit()"
+          - add formControlName="email" / "password" to the inputs
+          - import ReactiveFormsModule in login.ts
+      -->
+      <form class="login__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="login__field">
+          <label class="login__label" for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            class="login__input"
+            placeholder="you@pakistansweethome.com"
+            autocomplete="email"
+          />
+          <!-- TODO: validation message goes here -->
+        </div>
+
+        <div class="login__field">
+          <label class="login__label" for="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            class="login__input"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
+          <!-- TODO: validation message goes here -->
+        </div>
+
+        <!-- TODO: show API error here, e.g. @if (errorMessage()) { ... } -->
+
+        <button type="submit" class="login__submit">Login</button>
+      </form>
+    </div>
+  </main>
+</div>
