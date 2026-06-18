@@ -24,12 +24,14 @@ export class Login {
   })
 
   errorMessage = signal<string>('')
+  loading = signal<boolean>(false)
 
   onSubmit() {
     if(this.form.invalid){
       return
     }
     
+    this.loading.set(true)
     const subscription = this.authService.login(this.form.value.email!, this.form.value.password!).subscribe({
       next: (resp) => {
         const user = {
@@ -40,12 +42,14 @@ export class Login {
             token: resp.token
         }
         this.authService.saveUser(user)
+        this.loading.set(false)
       },
       error: (e) => {
         this.errorMessage.set(e.error.message) 
         setTimeout(() => {
           this.errorMessage.set('')
         }, 3000)
+        this.loading.set(false)
       }
     })
 

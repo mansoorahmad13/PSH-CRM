@@ -22,4 +22,15 @@ export class Auth {
         this.router.navigate(['/'])
     }
 
+    checkIfLoggedIn(){
+        const user = localStorage.getItem('user')
+        if(user){
+            const userObj = JSON.parse(user)
+            if(userObj.token){
+                return true
+            }
+        }
+        return false
+    }
+
 }

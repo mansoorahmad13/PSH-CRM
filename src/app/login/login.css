@@ -217,6 +217,10 @@
 }
 
 .login__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
   margin-top: var(--space-2);
   padding: var(--space-3) var(--space-5);
   font: inherit;
@@ -229,6 +233,19 @@
   transition: transform var(--dur-fast) var(--ease),
               box-shadow var(--dur) var(--ease),
               filter var(--dur) var(--ease);
+}
+
+/* Spinner shown while loading */
+.login__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: login-spin 0.6s linear infinite;
+}
+@keyframes login-spin {
+  to { transform: rotate(360deg); }
 }
 .login__submit:hover {
   filter: brightness(1.07);
