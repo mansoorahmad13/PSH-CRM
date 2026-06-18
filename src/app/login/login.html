@@ -31,13 +31,6 @@
         <p class="login__subtitle">Sign in to continue to your dashboard</p>
       </header>
 
-      <!--
-        TODO (your Angular task):
-          - add [formGroup]="loginForm" to <form>
-          - add (ngSubmit)="onSubmit()"
-          - add formControlName="email" / "password" to the inputs
-          - import ReactiveFormsModule in login.ts
-      -->
       <form class="login__form" [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="login__field">
           <label class="login__label" for="email">Email</label>
@@ -47,8 +40,11 @@
             class="login__input"
             placeholder="you@pakistansweethome.com"
             autocomplete="email"
+            formControlName="email"
           />
-          <!-- TODO: validation message goes here -->
+          @if(form.controls.email.touched && form.controls.email.dirty && form.controls.email.invalid){
+            <p class="input__error">Please enter a valid email!</p>
+          }
         </div>
 
         <div class="login__field">
@@ -59,11 +55,16 @@
             class="login__input"
             placeholder="Enter your password"
             autocomplete="current-password"
+            formControlName="password"
           />
-          <!-- TODO: validation message goes here -->
+          @if(form.controls.password.touched && form.controls.password.dirty && form.controls.password.invalid){
+            <p class="input__error">Please enter a valid password!</p>
+          }
         </div>
 
-        <!-- TODO: show API error here, e.g. @if (errorMessage()) { ... } -->
+        @if(errorMessage()){
+          <p class="server__error">{{ errorMessage() }}</p>
+        }
 
         <button type="submit" class="login__submit">Login</button>
       </form>

@@ -6,6 +6,5 @@ export const routes: Routes = [
         path: 'login',
         component: Login,
         title: 'Login · Pakistan Sweet Home CRM'
-    },
-    
+    }
 ];
