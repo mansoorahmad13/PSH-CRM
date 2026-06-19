@@ -430,62 +430,149 @@ a:hover { color: var(--c-accent); }
   color: var(--c-text-muted);
 }
 
+/* ---- 8. NATIVE SELECT ------------------------------------------------------
+   Unified look for every native <select> + a themed dropdown list so the
+   options popup isn't the browser-default white.                            */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 42px;
+  padding: 0 calc(var(--space-3) + 20px) 0 var(--space-3);
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--c-text);
+  background-color: var(--c-input-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  outline: none;
+  /* custom chevron (neutral grey reads on both themes) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%238a96b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  transition: border-color var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease);
+}
+select:focus {
+  border-color: var(--c-primary-500);
+  box-shadow: var(--glow-primary);
+}
+/* Dropdown list items — themed so the popup matches the app */
+select option,
+select optgroup {
+  background-color: var(--c-bg-700);
+  color: var(--c-text);
+}
+
+/* ---- 9. MAT-SELECT ---------------------------------------------------------
+   mat-select renders its options in a CDK overlay (panelClass="app-select-panel"),
+   so theme it globally — gives nicely styled options the native popup can't.  */
+.mat-mdc-select-value { color: var(--c-text); }
+.mat-mdc-select-placeholder { color: var(--c-text-faint); }
+.mat-mdc-select-arrow { color: var(--c-text-muted) !important; }
+
+.app-select-panel.mat-mdc-select-panel {
+  background-color: var(--c-bg-700) !important;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+  padding: var(--space-1) !important;
+}
+.app-select-panel .mat-mdc-option {
+  min-height: 38px;
+  border-radius: var(--radius-sm);
+  margin: 1px var(--space-1);
+}
+.app-select-panel .mat-mdc-option .mdc-list-item__primary-text {
+  color: var(--c-text);
+  font-size: var(--text-sm);
+}
+/* hover / keyboard-active */
+.app-select-panel .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+.app-select-panel .mat-mdc-option.mat-mdc-option-active {
+  background-color: var(--c-row-hover);
+}
+/* selected */
+.app-select-panel .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+  background-color: rgba(91, 140, 255, 0.16);
+}
+.app-select-panel .mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
+  color: var(--c-primary-400);
+}
+/* the selected checkmark */
+.app-select-panel .mat-pseudo-checkbox-full {
+  color: var(--c-primary-500) !important;
+}
+
 /* Toolbar date-range field — flatten to match the plain toolbar inputs
    (height 42, single subtle border, app input background, same radius). */
-.toolbar__daterange {
+.toolbar__field {
   /* Material 3 token controls the outline's corner radius */
   --mdc-outlined-text-field-container-shape: var(--radius-md);
 }
-.toolbar__daterange .mat-mdc-text-field-wrapper {
+.toolbar__field .mat-mdc-text-field-wrapper {
   background: var(--c-input-bg);
   border-radius: var(--radius-md);
   padding: 0 var(--space-3);
 }
-.toolbar__daterange .mat-mdc-form-field-flex {
+.toolbar__field .mat-mdc-form-field-flex {
   height: 42px;
   align-items: center;
 }
-.toolbar__daterange .mat-mdc-form-field-infix {
+.toolbar__field .mat-mdc-form-field-infix {
   min-height: 42px;
   padding: 0;
   display: flex;
   align-items: center;
 }
 /* Single, theme-matched border instead of Material's default outline */
-.toolbar__daterange .mdc-notched-outline__leading,
-.toolbar__daterange .mdc-notched-outline__notch,
-.toolbar__daterange .mdc-notched-outline__trailing {
+.toolbar__field .mdc-notched-outline__leading,
+.toolbar__field .mdc-notched-outline__notch,
+.toolbar__field .mdc-notched-outline__trailing {
   border-color: var(--c-border) !important;
 }
-.toolbar__daterange.mat-focused .mdc-notched-outline__leading,
-.toolbar__daterange.mat-focused .mdc-notched-outline__notch,
-.toolbar__daterange.mat-focused .mdc-notched-outline__trailing {
+.toolbar__field.mat-focused .mdc-notched-outline__leading,
+.toolbar__field.mat-focused .mdc-notched-outline__notch,
+.toolbar__field.mat-focused .mdc-notched-outline__trailing {
   border-color: var(--c-primary-500) !important;
   border-width: 1px !important;
 }
 /* Round the outline corners to match the other controls */
-.toolbar__daterange .mdc-notched-outline__leading {
+.toolbar__field .mdc-notched-outline__leading {
   border-radius: var(--radius-md) 0 0 var(--radius-md) !important;
   width: var(--radius-md) !important;
 }
-.toolbar__daterange .mdc-notched-outline__trailing {
+.toolbar__field .mdc-notched-outline__trailing {
   border-radius: 0 var(--radius-md) var(--radius-md) 0 !important;
 }
 /* Remove the reserved hint/error space below the field */
-.toolbar__daterange .mat-mdc-form-field-subscript-wrapper {
+.toolbar__field .mat-mdc-form-field-subscript-wrapper {
   display: none;
 }
 /* Inputs + separator + toggle colors */
-.toolbar__daterange input.mat-start-date,
-.toolbar__daterange input.mat-end-date,
-.toolbar__daterange .mat-date-range-input-separator {
+.toolbar__field input.mat-start-date,
+.toolbar__field input.mat-end-date,
+.toolbar__field .mat-date-range-input-separator {
   color: var(--c-text);
 }
-.toolbar__daterange input::placeholder {
-  color: var(--c-text-faint);
-}
-.toolbar__daterange .mat-mdc-icon-button {
+.toolbar__field .mat-mdc-icon-button {
   width: 36px;
   height: 36px;
   padding: 6px;
+}
+
+/* ---- Unified placeholder + text size across ALL toolbar controls ---------- */
+.toolbar__field input,
+.toolbar__field .mat-mdc-select-value,
+.toolbar__field .mat-mdc-select-placeholder,
+.toolbar__field .mat-date-range-input-separator {
+  font-size: var(--text-sm);
+}
+.toolbar__field input::placeholder,
+.toolbar__field .mat-mdc-select-placeholder,
+.toolbar__search::placeholder {
+  color: var(--c-text-faint);
+  font-size: var(--text-sm);
+  opacity: 1;            /* Firefox dims placeholders by default */
 }

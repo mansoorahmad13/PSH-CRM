@@ -11,7 +11,8 @@ export class Donation {
     getIncompleteDonations(
         start: Date | null = null, 
         end: Date | null = null,
-        search: string = ''
+        search: string = '',
+        amount: number | null = null
     ) {
         const apiData = {
             action: 'getEmailLeads',
@@ -26,6 +27,7 @@ export class Donation {
                 { data: 'email' },
                 { data: 'amount' },
             ]),
+            amount,
         }
         return this.httpClient.post<IncompleteLeadsResp>(apiPath + 'leads', apiData)
     }

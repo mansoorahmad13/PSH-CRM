@@ -2,7 +2,7 @@
   <!-- ==================== TOOLBAR ==================== -->
   <div class="leads__toolbar surface">
     <!-- Date range (Material) -->
-    <mat-form-field appearance="outline" class="toolbar__daterange" subscriptSizing="dynamic">
+    <mat-form-field appearance="outline" class="toolbar__daterange toolbar__field" subscriptSizing="dynamic">
       <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
         <input matStartDate formControlName="start" placeholder="From" />
         <input matEndDate formControlName="end" placeholder="To" />
@@ -13,13 +13,23 @@
 
     <input type="search" class="toolbar__search" placeholder="Search anything…" [formControl]="search" />
 
-    <!-- TODO: bind these filter selects -->
-    <select class="toolbar__select">
-      <option value="">Donation Amount</option>
-    </select>
-    <select class="toolbar__select">
-      <option value="">Disposition</option>
-    </select>
+    <mat-form-field appearance="outline" class="toolbar__field" subscriptSizing="dynamic">
+      <mat-select placeholder="Donation Amount" panelClass="app-select-panel" [formControl]="amount">
+        @for (amountOption of donationAmountOptions(); track amountOption.value) {
+          <mat-option [value]="amountOption.value">{{ amountOption.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- TODO: bind the filter selects (formControl / [(value)]) -->
+    <mat-form-field appearance="outline" class="toolbar__field" subscriptSizing="dynamic">
+      <mat-select placeholder="Disposition" panelClass="app-select-panel">
+        <mat-option value="Not Contacted">Not Contacted</mat-option>
+        <mat-option value="Contacted">Contacted</mat-option>
+        <mat-option value="Already Donated">Already Donated</mat-option>
+        <mat-option value="Wrong No.">Wrong No.</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <!-- TODO: (click)="clearFilters()" -->
     <button type="button" class="btn btn-ghost">Clear</button>

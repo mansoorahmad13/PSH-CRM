@@ -6,8 +6,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
 import { catchError, combineLatest, debounceTime, distinctUntilChanged, EMPTY, filter, startWith, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { donationAmounts } from '../donation.variables';
 
 @Component({
   selector: 'app-incomplete',
@@ -17,6 +19,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
+    MatSelectModule,
   ],
   templateUrl: './incomplete.html',
   styleUrl: './incomplete.css',
@@ -36,22 +39,29 @@ export class Incomplete implements OnInit {
   search = new FormControl('', {
     nonNullable: true
   })
+  amount =  new FormControl<number | null>(null)
+
+  donationAmountOptions = signal(donationAmounts)
 
   ngOnInit(): void {
+
     combineLatest([
       this.search.valueChanges.pipe(
-        debounceTime(500),
+        debounceTime(400),
         distinctUntilChanged(),
         startWith('')
       ),
       this.range.valueChanges.pipe(
         filter(({start, end}) => !!start && !!end),
         startWith(this.range.value)
-      )
+      ),
+      this.amount.valueChanges.pipe(
+        startWith(null)
+      )    
     ]).pipe(
       tap(() => this.loading.set(true)),
-      switchMap(([search, {start, end}]) => {
-        return this.donationService.getIncompleteDonations(start, end, search).pipe(
+      switchMap(([search, {start, end}, amount]) => {
+        return this.donationService.getIncompleteDonations(start, end, search, amount).pipe(
           catchError((err) => {
             console.log(err)
             this.loading.set(false)
