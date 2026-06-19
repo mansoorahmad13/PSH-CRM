@@ -19,6 +19,9 @@
   align-items: center;
   gap: var(--space-2);
 }
+.toolbar__daterange {
+  min-width: 250px;
+}
 .toolbar__label {
   font-size: var(--text-xs);
   color: var(--c-text-muted);
@@ -26,7 +29,8 @@
 .toolbar__input,
 .toolbar__select,
 .toolbar__search {
-  padding: var(--space-2) var(--space-3);
+  height: 42px;
+  padding: 0 var(--space-3);
   font: inherit;
   font-size: var(--text-sm);
   color: var(--c-text);
@@ -34,6 +38,11 @@
   border: 1px solid var(--c-border);
   border-radius: var(--radius-md);
   outline: none;
+}
+
+/* Keep the Clear button the same height as the other controls */
+.leads__toolbar .btn {
+  height: 42px;
 }
 .toolbar__search { flex: 1; min-width: 160px; }
 .toolbar__input:focus,
@@ -189,6 +198,45 @@
   padding: var(--space-8);
   text-align: center;
   color: var(--c-text-muted);
+}
+
+/* ==================== SKELETON LOADING ==================== */
+.skeleton {
+  display: block;
+  height: 12px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    90deg,
+    var(--c-bg-700) 25%,
+    var(--c-bg-600) 37%,
+    var(--c-bg-700) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+}
+.skeleton--check {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-sm);
+}
+.skeleton--select {
+  width: 130px;
+  height: 38px;
+  border-radius: var(--radius-md);
+}
+.skeleton--icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+}
+/* stack the lead-info skeleton lines with a little breathing room */
+.skeleton-row .cell-lead .skeleton + .skeleton {
+  margin-top: 2px;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: 0 0; }
 }
 
 /* ==================== PAGINATION ==================== */

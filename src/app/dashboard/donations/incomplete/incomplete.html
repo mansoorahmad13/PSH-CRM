@@ -1,13 +1,15 @@
 <section class="leads">
   <!-- ==================== TOOLBAR ==================== -->
   <div class="leads__toolbar surface">
-    <!-- TODO: bind date range (From / To) -->
-    <div class="toolbar__dates">
-      <span class="toolbar__label">From</span>
-      <input type="date" class="toolbar__input" />
-      <span class="toolbar__label">To</span>
-      <input type="date" class="toolbar__input" />
-    </div>
+    <!-- Date range (Material). TODO: react to range.valueChanges -> reload leads -->
+    <mat-form-field appearance="outline" class="toolbar__daterange" subscriptSizing="dynamic">
+      <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="From" />
+        <input matEndDate formControlName="end" placeholder="To" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="picker" />
+      <mat-date-range-picker #picker />
+    </mat-form-field>
 
     <!-- TODO: bind search -> (input) debounce -> reload leads -->
     <input type="search" class="toolbar__search" placeholder="Search anything…" />
@@ -62,6 +64,28 @@
         </thead>
 
         <tbody>
+          @if (loading()) {
+            <!-- Shimmer skeleton rows while data loads -->
+            @for (row of [0,1,2,3,4,5,6,7]; track row) {
+              <tr class="skeleton-row">
+                <td class="col-check"><span class="skeleton skeleton--check"></span></td>
+                <td><span class="skeleton" style="width: 22px"></span></td>
+                <td><span class="skeleton" style="width: 72px"></span></td>
+                <td><span class="skeleton" style="width: 120px"></span></td>
+                <td class="cell-lead">
+                  <span class="skeleton" style="width: 65%"></span>
+                  <span class="skeleton" style="width: 85%"></span>
+                  <span class="skeleton" style="width: 55%"></span>
+                </td>
+                <td><span class="skeleton" style="width: 70px"></span></td>
+                <td><span class="skeleton" style="width: 52px"></span></td>
+                <td><span class="skeleton" style="width: 60px"></span></td>
+                <td><span class="skeleton skeleton--select"></span></td>
+                <td><span class="skeleton" style="width: 96px"></span></td>
+                <td><span class="skeleton skeleton--icon"></span></td>
+              </tr>
+            }
+          } @else {
           <!-- Renders your existing leads() signal -->
           @for (lead of leads(); track lead.id; let i = $index) {
             <tr>
@@ -125,6 +149,7 @@
             <tr>
               <td colspan="11" class="leads__empty">No donations found.</td>
             </tr>
+          }
           }
         </tbody>
       </table>
