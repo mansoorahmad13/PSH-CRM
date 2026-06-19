@@ -1,0 +1,42 @@
+<div class="shell">
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="sidebar">
+    <!-- Brand -->
+    <div class="sidebar__brand">
+      <img class="sidebar__logo" src="assets/psh-logo.svg" alt="Pakistan Sweet Home" />
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar__nav">
+      <p class="nav__section">Donations</p>
+      <a class="nav__item" routerLink="/donations/incomplete" routerLinkActive="is-active">
+        <span class="nav__icon" aria-hidden="true">◷</span>
+        <span class="nav__label">Incomplete</span>
+      </a>
+
+      <!-- <a class="nav__item" routerLink="/donations/unpaid" routerLinkActive="is-active">
+        <span class="nav__icon" aria-hidden="true">◌</span>
+        <span class="nav__label">Unpaid</span>
+      </a>
+
+      <a class="nav__item" routerLink="/donations/paid" routerLinkActive="is-active">
+        <span class="nav__icon" aria-hidden="true">✓</span>
+        <span class="nav__label">Paid</span>
+      </a> -->
+    </nav>
+
+    <!-- Footer -->
+    <div class="sidebar__foot">
+      <!-- TODO: wire a logout action, e.g. (click)="onLogout()" -->
+      <button type="button" class="nav__item nav__item--button" (click)="onLogout()">
+        <span class="nav__icon" aria-hidden="true">⏻</span>
+        <span class="nav__label">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==================== CONTENT ==================== -->
+  <main class="shell__content">
+    <router-outlet />
+  </main>
+</div>

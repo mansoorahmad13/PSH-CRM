@@ -1,6 +1,4 @@
-import { Role } from "../crm.variables";
-
-
+import { Role } from "../app.variables";
 
 export interface LoginResponse {
   admin: {

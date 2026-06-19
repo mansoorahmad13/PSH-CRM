@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { apiPath, User } from '../crm.variables';
+import { apiPath, User } from '../app.variables';
 import { Router } from '@angular/router';
 import { LoginResponse } from './auth.model';
 
@@ -31,6 +31,14 @@ export class Auth {
             }
         }
         return false
+    }
+
+    logout() {
+        const user = localStorage.getItem('user')
+        if(user){
+            localStorage.removeItem('user')
+            this.router.navigate(['/login'])
+        }
     }
 
 }
