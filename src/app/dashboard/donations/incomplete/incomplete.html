@@ -11,8 +11,7 @@
       <mat-date-range-picker #picker />
     </mat-form-field>
 
-    <!-- TODO: bind search -> (input) debounce -> reload leads -->
-    <input type="search" class="toolbar__search" placeholder="Search anything…" />
+    <input type="search" class="toolbar__search" placeholder="Search anything…" [formControl]="search" />
 
     <!-- TODO: bind these filter selects -->
     <select class="toolbar__select">

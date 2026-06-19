@@ -6,7 +6,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { catchError, EMPTY, filter, switchMap, tap } from 'rxjs';
+import { catchError, combineLatest, debounceTime, distinctUntilChanged, EMPTY, filter, startWith, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -33,47 +33,41 @@ export class Incomplete implements OnInit {
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   })
+  search = new FormControl('', {
+    nonNullable: true
+  })
 
   ngOnInit(): void {
-    this.loadLeads();
-
-    this.range.valueChanges
-    .pipe(
-      filter(({start, end}) => !!start && !!end),
+    combineLatest([
+      this.search.valueChanges.pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        startWith('')
+      ),
+      this.range.valueChanges.pipe(
+        filter(({start, end}) => !!start && !!end),
+        startWith(this.range.value)
+      )
+    ]).pipe(
       tap(() => this.loading.set(true)),
-      switchMap(({start, end}) => {
-        return this.donationService.getIncompleteDonations(start, end)
-      }),
-      catchError(err => {
-        this.loading.set(false);
-        console.log(err);
-        return EMPTY;
+      switchMap(([search, {start, end}]) => {
+        return this.donationService.getIncompleteDonations(start, end, search).pipe(
+          catchError((err) => {
+            console.log(err)
+            this.loading.set(false)
+            return EMPTY
+          }),          
+        )
       }),
       takeUntilDestroyed(this.destroyRef)
     )
     .subscribe({
-      next: (resp) => {
-        this.leads.set(resp.leads.data) 
+      next: (resp => {
+        this.leads.set(resp.leads.data)
         this.loading.set(false)
-      },
-      error: (error) => { 
-        this.loading.set(false)
-        console.log(error)
-      }
+      }),
+      error: (err => console.log(err))
     })
-
-  }
-
-  loadLeads() {
-    this.loading.set(true)
-    const subscription = this.donationService.getIncompleteDonations().subscribe({    
-      next: (resp) => {
-        this.leads.set(resp.leads.data) 
-        this.loading.set(false)
-      }
-    })
-    
-    this.destroyRef.onDestroy(() => subscription.unsubscribe())
   }
 
 }
