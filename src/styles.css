@@ -8,49 +8,61 @@
    These live on :root so every element in the app can read them via var().
    Think of them as your single source of truth for the look & feel.        */
 :root {
-  /* Brand blues — from deep space navy to electric cyan */
-  --c-bg-900: #060b1a;   /* darkest — app background          */
-  --c-bg-800: #0a1228;   /* base surface                      */
-  --c-bg-700: #0f1c3a;   /* raised surface (cards)            */
-  --c-bg-600: #16264f;   /* hover / elevated                  */
+  /* Dark grey/black base with a subtle blue undertone */
+  --c-bg-900: #08090e;   /* darkest — app background          */
+  --c-bg-800: #12141c;   /* base surface                      */
+  --c-bg-700: #1a1d27;   /* raised surface (cards)            */
+  --c-bg-600: #242834;   /* hover / elevated                  */
 
-  --c-primary-700: #1d4ed8;
-  --c-primary-600: #2563eb;  /* main brand blue                */
-  --c-primary-500: #3b82f6;
-  --c-primary-400: #60a5fa;
+  --c-primary-700: #2552e6;
+  --c-primary-600: #3b6cf6;  /* main brand blue                */
+  --c-primary-500: #5b8cff;
+  --c-primary-400: #84acff;
 
-  --c-accent: #22d3ee;       /* electric cyan — highlights/glow */
-  --c-accent-soft: #67e8f9;
+  --c-accent: #2ee6f0;       /* electric cyan — highlights/glow */
+  --c-accent-soft: #7df0ff;
+  --c-accent-2: #a974ff;     /* violet — secondary accent       */
+  --c-accent-2-soft: #c8a6ff;
 
   /* Text */
-  --c-text: #e8efff;         /* primary text                   */
-  --c-text-muted: #93a4c8;   /* secondary text                 */
-  --c-text-faint: #5b6b8f;   /* hints, disabled                */
+  --c-text: #eef3ff;         /* primary text                   */
+  --c-text-muted: #a6b6dc;   /* secondary text                 */
+  --c-text-faint: #6b7da8;   /* hints, disabled                */
 
   /* Functional colors */
-  --c-success: #22c55e;
-  --c-warning: #f59e0b;
-  --c-danger:  #ef4444;
+  --c-success: #2ddf7a;
+  --c-warning: #fbbf24;
+  --c-danger:  #fb5a6a;
 
   /* Lines & borders */
-  --c-border: rgba(96, 165, 250, 0.14);
-  --c-border-strong: rgba(96, 165, 250, 0.30);
+  --c-border: rgba(125, 155, 235, 0.12);
+  --c-border-strong: rgba(125, 155, 235, 0.24);
 
   /* Glassmorphism surface (semi-transparent panels) */
-  --glass-bg: rgba(15, 28, 58, 0.55);
-  --glass-border: rgba(120, 170, 255, 0.18);
-  --glass-blur: 14px;
+  --glass-bg: rgba(20, 24, 38, 0.66);
+  --glass-border: rgba(125, 155, 235, 0.12);
+  --glass-blur: 16px;
 
   /* Glow effects — the "futuristic" signature */
-  --glow-primary: 0 0 0 1px rgba(59, 130, 246, 0.35),
-                  0 0 18px rgba(59, 130, 246, 0.35);
-  --glow-accent:  0 0 0 1px rgba(34, 211, 238, 0.40),
-                  0 0 20px rgba(34, 211, 238, 0.40);
+  --glow-primary: 0 0 0 1px rgba(91, 140, 255, 0.45),
+                  0 0 26px rgba(91, 140, 255, 0.45);
+  --glow-accent:  0 0 0 1px rgba(46, 230, 240, 0.50),
+                  0 0 28px rgba(46, 230, 240, 0.45);
 
   /* Elevation (shadows) */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
   --shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.55);
+
+  /* Semantic surfaces (theme-aware — overridden in light theme below) */
+  --c-input-bg: rgba(120, 150, 235, 0.05);      /* form fields            */
+  --c-th-bg: rgba(80, 115, 220, 0.12);          /* table header           */
+  --c-row-hover: rgba(125, 155, 235, 0.05);     /* table row hover        */
+  --sidebar-bg: linear-gradient(180deg, #12141d, #0a0b12);
+  --logo-filter: brightness(0) invert(1);       /* white logo on dark     */
+  --app-bg:
+    radial-gradient(950px circle at 8% -12%, rgba(48, 78, 170, 0.16), transparent 48%),
+    linear-gradient(180deg, #0d0f18 0%, #0a0b12 60%, #07080d 100%);
 
   /* Spacing scale (use these instead of random px values) */
   --space-1: 4px;
@@ -85,6 +97,59 @@
   --dur: 240ms;
 }
 
+/* ---- 1b. LIGHT THEME ------------------------------------------------------
+   Activated by setting data-theme="light" on <html> (your ThemeService does
+   this). Only color tokens change — spacing/typography/motion are shared.    */
+:root[data-theme="light"] {
+  --c-bg-900: #eef2f9;
+  --c-bg-800: #e4eaf5;
+  --c-bg-700: #ffffff;
+  --c-bg-600: #dde6f5;
+
+  --c-primary-700: #1d4ed8;
+  --c-primary-600: #2563eb;
+  --c-primary-500: #3b82f6;
+  --c-primary-400: #2f6bdc;
+
+  --c-accent: #0891b2;
+  --c-accent-soft: #0e7490;
+  --c-accent-2: #7c3aed;
+  --c-accent-2-soft: #6d28d9;
+
+  --c-text: #0e1b3a;
+  --c-text-muted: #4a5a7e;
+  --c-text-faint: #8493b4;
+
+  --c-success: #16a34a;
+  --c-warning: #d97706;
+  --c-danger:  #dc2626;
+
+  --c-border: rgba(20, 45, 100, 0.12);
+  --c-border-strong: rgba(20, 45, 100, 0.24);
+
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(20, 45, 100, 0.10);
+
+  --glow-primary: 0 0 0 1px rgba(59, 130, 246, 0.30),
+                  0 0 14px rgba(59, 130, 246, 0.16);
+  --glow-accent:  0 0 0 1px rgba(8, 145, 178, 0.30),
+                  0 0 14px rgba(8, 145, 178, 0.16);
+
+  --shadow-sm: 0 2px 8px rgba(20, 45, 100, 0.08);
+  --shadow-md: 0 8px 24px rgba(20, 45, 100, 0.12);
+  --shadow-lg: 0 18px 50px rgba(20, 45, 100, 0.16);
+
+  --c-input-bg: #ffffff;
+  --c-th-bg: #e9f0fe;
+  --c-row-hover: rgba(59, 130, 246, 0.06);
+  --sidebar-bg: linear-gradient(180deg, #ffffff, #f1f5fc);
+  --logo-filter: none;                          /* keep navy logo on light */
+  --app-bg:
+    radial-gradient(1000px circle at 8% -12%, rgba(59, 130, 246, 0.10), transparent 46%),
+    radial-gradient(900px circle at 98% 4%, rgba(124, 58, 237, 0.08), transparent 44%),
+    linear-gradient(180deg, #f3f6fc 0%, #e9eef7 100%);
+}
+
 /* ---- 2. RESET / BASE ------------------------------------------------------ */
 *,
 *::before,
@@ -105,18 +170,33 @@ body {
   line-height: 1.55;
   color: var(--c-text);
 
-  /* Layered futuristic background:
-     two soft radial "light sources" over a deep navy base. */
+  /* Theme-aware layered background (see --app-bg token, switches per theme) */
   background-color: var(--c-bg-900);
-  background-image:
-    radial-gradient(900px circle at 12% -10%, rgba(37, 99, 235, 0.20), transparent 45%),
-    radial-gradient(800px circle at 100% 0%, rgba(34, 211, 238, 0.12), transparent 40%),
-    linear-gradient(180deg, var(--c-bg-900) 0%, #04070f 100%);
+  background-image: var(--app-bg);
   background-attachment: fixed;
+
+  transition: background-color var(--dur) var(--ease);
 
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+
+/* Faint grid overlay (dark theme only) — sits above the gradient, behind content.
+   Masked so it fades out toward the bottom-right, like the brand panel. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(140, 170, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 170, 255, 0.03) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(120% 120% at 12% 10%, #000 0%, transparent 62%);
+  mask-image: radial-gradient(120% 120% at 12% 10%, #000 0%, transparent 62%);
+}
+:root[data-theme="light"] body::before { display: none; }
 
 /* ---- 3. TYPOGRAPHY -------------------------------------------------------- */
 h1, h2, h3, h4 {

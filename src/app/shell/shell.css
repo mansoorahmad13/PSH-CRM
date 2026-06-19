@@ -4,15 +4,38 @@
   display: grid;
   grid-template-columns: 264px 1fr;
   min-height: 100dvh;
+  transition: grid-template-columns var(--dur) var(--ease);
+}
+
+/* Collapsed: icon-only rail */
+.shell.is-collapsed {
+  grid-template-columns: 76px 1fr;
+}
+.shell.is-collapsed .nav__label,
+.shell.is-collapsed .nav__section,
+.shell.is-collapsed .sidebar__logo {
+  display: none;
+}
+.shell.is-collapsed .nav__item {
+  justify-content: center;
+}
+.shell.is-collapsed .sidebar__brand {
+  justify-content: center;
 }
 
 /* ==================== SIDEBAR ==================== */
 .sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;          /* don't stretch — required for sticky in grid */
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: visible;          /* let the edge toggle stick out */
+
   display: flex;
   flex-direction: column;
   padding: var(--space-5) var(--space-4);
-  background:
-    linear-gradient(180deg, rgba(15, 28, 58, 0.75), rgba(6, 11, 26, 0.85));
+  background: var(--sidebar-bg);
   border-right: 1px solid var(--c-border);
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
@@ -21,13 +44,47 @@
 .sidebar__brand {
   display: flex;
   align-items: center;
+  gap: var(--space-2);
   padding: var(--space-2) var(--space-2) var(--space-5);
 }
 .sidebar__logo {
   height: 26px;
   width: auto;
-  /* SVG is navy #003366 — recolor to white for the dark sidebar */
-  filter: brightness(0) invert(1);
+  /* SVG is navy #003366 — white on dark theme, navy on light theme */
+  filter: var(--logo-filter);
+}
+
+/* Collapse toggle — circular handle on the right edge, vertically centered */
+.sidebar__toggle {
+  position: absolute;
+  top: 50%;
+  right: -14px;
+  transform: translateY(-50%);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--c-text-muted);
+  background: var(--c-bg-700);
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: color var(--dur-fast) var(--ease),
+              background var(--dur-fast) var(--ease);
+}
+.sidebar__toggle:hover {
+  color: var(--c-text);
+  background: var(--c-bg-600);
+}
+.sidebar__toggle svg {
+  transition: transform var(--dur) var(--ease);
+}
+/* Flip the chevron to point right when collapsed */
+.shell.is-collapsed .sidebar__toggle svg {
+  transform: rotate(180deg);
 }
 
 /* ---- Navigation ---- */
@@ -36,6 +93,8 @@
   flex-direction: column;
   gap: var(--space-1);
   flex: 1;
+  min-height: 0;              /* allow the nav to shrink so it can scroll */
+  overflow-y: auto;           /* long nav scrolls here, not the whole sidebar */
 }
 
 .nav__section {
@@ -68,12 +127,15 @@
   background: rgba(96, 165, 250, 0.08);
 }
 
-/* Active link — highlighted with a glow accent */
+/* Active link — solid fill so white text is readable in both themes */
 .nav__item.is-active {
   color: #fff;
-  background: rgba(37, 99, 235, 0.18);
-  border-color: var(--c-border-strong);
-  box-shadow: var(--glow-primary);
+  background: linear-gradient(135deg, var(--c-primary-600), var(--c-primary-500));
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.30);
+}
+.nav__item.is-active:hover {
+  color: #fff;
 }
 
 .nav__icon {

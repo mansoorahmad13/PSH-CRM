@@ -1,10 +1,23 @@
-<div class="shell">
+<div class="shell" [class.is-collapsed]="collapsed()">
   <!-- ==================== SIDEBAR ==================== -->
   <aside class="sidebar">
     <!-- Brand -->
     <div class="sidebar__brand">
       <img class="sidebar__logo" src="assets/psh-logo.svg" alt="Pakistan Sweet Home" />
     </div>
+
+    <!-- Collapse toggle: handle on the right edge, vertically centered -->
+    <button
+      type="button"
+      class="sidebar__toggle"
+      (click)="toggleCollapse()"
+      aria-label="Toggle sidebar"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
 
     <!-- Navigation -->
     <nav class="sidebar__nav">
@@ -27,9 +40,30 @@
 
     <!-- Footer -->
     <div class="sidebar__foot">
-      <!-- TODO: wire a logout action, e.g. (click)="onLogout()" -->
+      <!--
+        TODO (your Angular task): create a ThemeService with a `theme` signal
+        ('dark' | 'light') that sets data-theme on <html> and persists to
+        localStorage. Then wire (click)="toggleTheme()" and the @if below.
+      -->
+      <button type="button" class="nav__item nav__item--button" (click)="toggleTheme()">
+        @if (theme() === 'dark') {
+          <span class="nav__icon" aria-hidden="true">☀</span>
+          <span class="nav__label">Light mode</span>
+        } @else {
+          <span class="nav__icon" aria-hidden="true">☾</span>
+          <span class="nav__label">Dark mode</span>
+        }
+      </button>
+
       <button type="button" class="nav__item nav__item--button" (click)="onLogout()">
-        <span class="nav__icon" aria-hidden="true">⏻</span>
+        <span class="nav__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+        </span>
         <span class="nav__label">Logout</span>
       </button>
     </div>

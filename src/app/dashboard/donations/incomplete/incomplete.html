@@ -1,1 +1,148 @@
-<p>incomplete works!</p>
+<section class="leads">
+  <!-- ==================== TOOLBAR ==================== -->
+  <div class="leads__toolbar surface">
+    <!-- TODO: bind date range (From / To) -->
+    <div class="toolbar__dates">
+      <span class="toolbar__label">From</span>
+      <input type="date" class="toolbar__input" />
+      <span class="toolbar__label">To</span>
+      <input type="date" class="toolbar__input" />
+    </div>
+
+    <!-- TODO: bind search -> (input) debounce -> reload leads -->
+    <input type="search" class="toolbar__search" placeholder="Search anything…" />
+
+    <!-- TODO: bind these filter selects -->
+    <select class="toolbar__select">
+      <option value="">Donation Amount</option>
+    </select>
+    <select class="toolbar__select">
+      <option value="">Disposition</option>
+    </select>
+
+    <!-- TODO: (click)="clearFilters()" -->
+    <button type="button" class="btn btn-ghost">Clear</button>
+  </div>
+
+  <!-- ==================== TABLE CARD ==================== -->
+  <div class="leads__card surface">
+    <!-- Page size -->
+    <div class="leads__cardhead">
+      <label class="leads__pagesize">
+        Show
+        <!-- TODO: (change)="setPageSize($event)" -->
+        <select class="leads__pagesizeselect">
+          <option>25</option>
+          <option>50</option>
+          <option>100</option>
+        </select>
+        Records
+      </label>
+    </div>
+
+    <div class="leads__scroll">
+      <table class="leads__table">
+        <thead>
+          <tr>
+            <th class="col-check">
+              <!-- TODO: (change)="toggleAll($event)" -->
+              <input type="checkbox" />
+            </th>
+            <th>Sr#</th>
+            <th>Donation ID</th>
+            <th>Timestamp</th>
+            <th>Lead Info</th>
+            <th>Amount</th>
+            <th>Purpose</th>
+            <th>Type</th>
+            <th>Disposition</th>
+            <th>Follow up time</th>
+            <th>Comments</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Renders your existing leads() signal -->
+          @for (lead of leads(); track lead.id; let i = $index) {
+            <tr>
+              <td class="col-check">
+                <!-- TODO: bind per-row selection -->
+                <input type="checkbox" />
+              </td>
+
+              <td>{{ i + 1 }}</td>
+
+              <td class="cell-id">PSH- {{ lead.id }}</td>
+
+              <!-- needs DatePipe imported in incomplete.ts -->
+              <td>{{ lead.date | date: 'MMM d, y h:mm a' }}</td>
+
+              <td class="cell-lead">
+                <span class="cell-lead__name">{{ lead.name }}</span>
+                <span class="cell-lead__sub">{{ lead.email }}</span>
+                <span class="cell-lead__sub">{{ lead.mobile }}</span>
+              </td>
+
+              <td class="cell-amount">{{ lead.currency }} {{ lead.amount }}</td>
+
+              <!-- TODO: confirm which field holds the donation purpose -->
+              <td>{{ lead.nature ?? '—' }}</td>
+
+              <td>{{ lead.duration }}</td>
+
+              <td>
+                <!-- TODO: populate options from dispositions list,
+                     preselect current, (change)="changeDisposition(lead, $event)" -->
+                <select class="disp-select">
+                  <option>Not Contacted</option>
+                  <option>Contacted</option>
+                  <option>Already Donated</option>
+                  <option>Wrong No.</option>
+                </select>
+              </td>
+
+              <td class="cell-follow">
+                @if (lead.follow_up_time) {
+                  <span>{{ lead.follow_up_time | date: 'MMM d, y' }}</span>
+                  <!-- TODO: compute remaining time from follow_up_time -->
+                  <span class="badge-time">— Days : — Hours</span>
+                } @else {
+                  <span class="cell-muted">—</span>
+                }
+              </td>
+
+              <td>
+                <!-- TODO: (click)="openComments(lead)" -->
+                <button type="button" class="icon-btn" title="Comments">
+                  💬
+                  @if (lead.comments?.length) {
+                    <span class="icon-btn__count">{{ lead.comments.length }}</span>
+                  }
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="11" class="leads__empty">No donations found.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ==================== PAGINATION ==================== -->
+    <!--
+      TODO: store the pagination meta (current_page, last_page, from, to, total)
+      in a signal so this footer can show real numbers and change pages.
+    -->
+    <div class="leads__foot">
+      <span class="leads__count">Showing — to — of — entries</span>
+      <div class="leads__pager">
+        <!-- TODO: (click)="goToPage(n)"; disable at bounds -->
+        <button type="button" class="pager__btn">‹</button>
+        <button type="button" class="pager__btn is-active">1</button>
+        <button type="button" class="pager__btn">›</button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -10,6 +10,13 @@ export class Auth {
     private httpClient = inject(HttpClient)
     private router = inject(Router)
 
+    get user() {
+        const user = localStorage.getItem('user')
+        if(user){
+            return JSON.parse(user)
+        }
+    }
+
     login(email: string, password: string) {
         return this.httpClient.post<LoginResponse>(apiPath + 'login', {
             email,
@@ -23,22 +30,21 @@ export class Auth {
     }
 
     checkIfLoggedIn(){
-        const user = localStorage.getItem('user')
-        if(user){
-            const userObj = JSON.parse(user)
-            if(userObj.token){
-                return true
-            }
-        }
-        return false
+        const user = this.user
+        return user && true
     }
 
     logout() {
-        const user = localStorage.getItem('user')
+        const user = this.user
         if(user){
-            localStorage.removeItem('user')
+            localStorage.removeItem('user') 
             this.router.navigate(['/login'])
         }
+    }
+
+    get token() {
+        const user = this.user
+        return user && user.token
     }
 
 }
