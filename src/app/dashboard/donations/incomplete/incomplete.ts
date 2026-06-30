@@ -30,6 +30,7 @@ export class Incomplete implements OnInit {
 
   leads = signal<DonationType[]>([])
   loading = signal<boolean>(false)  
+  selectedLeads = signal<number[]>([])
 
   donationAmountOptions = signal(donationAmounts)
   dispositions = signal(dispositions)
@@ -48,7 +49,6 @@ export class Incomplete implements OnInit {
   pages = new FormControl<number>(25, {
     nonNullable: true
   })
-
 
   ngOnInit(): void {
 
@@ -101,6 +101,28 @@ export class Incomplete implements OnInit {
     this.amount.setValue(null)
     this.disposition.setValue(null)
     this.search.setValue('')
+  }
+
+  deleteLead() {
+
+  }
+
+  updateSelectedLeads(leadId: number) {
+    if(this.selectedLeads().includes(leadId)){
+      this.selectedLeads.update((prevLeads) => prevLeads.filter((l) => l !== leadId))
+    } else {
+      this.selectedLeads.update((prevLeads) => [...prevLeads, leadId])
+    }
+  }
+
+  toggleAllLeads() {
+    if(this.selectedLeads().length === this.pages.value) {
+      this.selectedLeads.set([])
+    } else {
+      this.selectedLeads.set(this.leads().map(
+        l => l.id
+      ))
+    }
   }
 
 }

@@ -299,6 +299,18 @@ a:hover { color: var(--c-accent); }
   border-color: var(--c-border);
 }
 
+/* Destructive action (e.g. Delete) */
+.btn-danger {
+  border: none;
+  color: #fff;
+  background: linear-gradient(135deg, var(--c-danger), #d63b4c);
+}
+.btn-danger:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 0 0 1px rgba(251, 90, 106, 0.45),
+              0 8px 22px rgba(251, 90, 106, 0.35);
+}
+
 /* Inputs */
 .input {
   width: 100%;

@@ -30,6 +30,10 @@
     </mat-form-field>
 
     <button type="button" class="btn btn-ghost" (click)="clearFilters()">Clear</button>
+    @if(selectedLeads().length){
+      <!-- TODO: Delete Lead Functionality -->
+      <button type="button" class="btn btn-danger" (click)="deleteLead()">Delete ({{ selectedLeads().length }})</button>
+    }
   </div>
 
   <!-- ==================== TABLE CARD ==================== -->
@@ -52,8 +56,10 @@
         <thead>
           <tr>
             <th class="col-check">
-              <!-- TODO: (change)="toggleAll($event)" -->
-              <input type="checkbox" />
+              <input type="checkbox" 
+                (change)="toggleAllLeads()" 
+                [checked]="leads().length && selectedLeads().length === leads().length"
+              />
             </th>
             <th>Sr#</th>
             <th>Donation ID</th>
@@ -95,8 +101,10 @@
           @for (lead of leads(); track lead.id; let i = $index) {
             <tr>
               <td class="col-check">
-                <!-- TODO: bind per-row selection -->
-                <input type="checkbox" />
+                <input type="checkbox" 
+                  (change)="updateSelectedLeads(lead.id)"
+                  [checked]="selectedLeads().includes(lead.id)"
+                />
               </td>
 
               <td>{{ i + 1 }}</td>
