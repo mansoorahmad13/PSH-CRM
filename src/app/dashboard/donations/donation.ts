@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { inject, Service } from '@angular/core';
 import { apiPath } from '../../app.variables';
-import { DeleteLeadResp, IncompleteLeadsResp } from './donation.model';
+import { DeleteLeadResp, IncompleteLeadsResp, UpdateDispositionResp } from './donation.model';
 
 @Service()
 export class Donation {
@@ -39,6 +39,24 @@ export class Donation {
         return this.httpClient.post<DeleteLeadResp>(`${apiPath}delete_lead`, {
             ids: leadIds.toString()
         })
+    }
+
+    changeDisposition(
+        lead_id: number, 
+        comment: string, 
+        disposition: string | undefined, 
+        disposition_id: number, 
+        follow_up_time: Date | null
+    ) {
+        return this.httpClient.post<UpdateDispositionResp>(`${apiPath}leads/comment`, {
+                lead_id,
+                comment,
+                disposition: disposition || '',
+                disposition_id,
+                follow_up_time: follow_up_time
+                    ? formatDate(follow_up_time, 'yyyy-MM-dd HH:mm:ss', 'en-US')
+                    : null
+            })
     }
 
 }

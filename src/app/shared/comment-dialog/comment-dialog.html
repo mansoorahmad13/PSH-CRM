@@ -1,0 +1,77 @@
+<div class="comment-modal">
+  <!-- Header -->
+  <header class="comment-modal__head">
+    <div class="comment-modal__title">
+      <span class="comment-modal__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+      </span>
+      <h2>{{ data.title ?? 'Add Comment' }}</h2>
+    </div>
+    <button type="button" class="comment-modal__close" (click)="cancel()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+  </header>
+
+  <div class="comment-modal__body" [formGroup]="form">
+    <!-- Rich text comment -->
+    <label class="comment-modal__label">Comment</label>
+    <quill-editor
+      class="comment-editor"
+      formControlName="comment"
+      format="html"
+      [modules]="quillModules"
+      placeholder="Write a comment…"
+    />
+
+    <!-- Follow up date + time -->
+    <label class="comment-modal__label">Follow up on</label>
+    <div class="comment-modal__datetime">
+      <mat-form-field appearance="outline" class="toolbar__field comment-modal__date" subscriptSizing="dynamic">
+        <input matInput [matDatepicker]="fp" [min]="minDate" formControlName="followDate" placeholder="Date" />
+        <mat-datepicker-toggle matIconSuffix [for]="fp" />
+        <mat-datepicker #fp />
+      </mat-form-field>
+
+      <div class="time-cols">
+        <mat-form-field appearance="outline" class="toolbar__field time-field" subscriptSizing="dynamic">
+          <mat-select formControlName="hour" panelClass="app-select-panel" placeholder="HH">
+            @for (h of hours; track h) {
+              <mat-option [value]="h">{{ h.toString().padStart(2, '0') }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <span class="time-colon">:</span>
+        <mat-form-field appearance="outline" class="toolbar__field time-field" subscriptSizing="dynamic">
+          <mat-select formControlName="minute" panelClass="app-select-panel" placeholder="MM">
+            @for (m of minutes; track m) {
+              <mat-option [value]="m">{{ m.toString().padStart(2, '0') }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="toolbar__field time-field time-field--ampm" subscriptSizing="dynamic">
+          <mat-select formControlName="meridiem" panelClass="app-select-panel" placeholder="AM/PM">
+            @for (p of meridiems; track p) {
+              <mat-option [value]="p">{{ p }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    @if (form.errors?.['pastTime']) {
+      <p class="comment-modal__error">Follow-up can't be in the past.</p>
+    }
+  </div>
+
+  <!-- Footer -->
+  <footer class="comment-modal__foot">
+    <button type="button" class="btn btn-ghost" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="form.invalid">Save</button>
+  </footer>
+</div>

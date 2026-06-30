@@ -66,3 +66,20 @@ export interface DeleteLeadResp {
     message: string;
     status: number
 }
+
+export interface Comment {
+    admin_id: number,
+    comment: string,
+    created_at: Date,
+    disposition: string,
+    follow_up_time: Date,
+    id: number
+    lead_id: number,
+    updated_at: Date,
+}
+
+export interface UpdateDispositionResp {
+    message: string;
+    status: number;
+    comment: Comment
+}

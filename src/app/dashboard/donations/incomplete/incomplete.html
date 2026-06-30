@@ -138,7 +138,11 @@
               <td>
                 <!-- TODO: add (selectionChange)="changeDisposition(lead, $event.value)" -->
                 <mat-form-field appearance="outline" class="toolbar__field disp-field" subscriptSizing="dynamic">
-                  <mat-select panelClass="app-select-panel" [value]="lead.disposition_id">
+                  <mat-select 
+                    panelClass="app-select-panel" 
+                    [value]="lead.disposition_id"
+                    (selectionChange)="changeDisposition(lead, $event.value)"
+                  >
                     @for (dispositionOption of dispositions(); track dispositionOption.value) {
                       <mat-option [value]="dispositionOption.value">{{ dispositionOption.label }}</mat-option>
                     }

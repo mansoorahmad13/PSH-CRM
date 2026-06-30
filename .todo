@@ -1,0 +1,26 @@
+Fresh lead Disposition Change:
+https://adminbackend.pakistansweethome.org.pk/api/leads/comment
+POST
+
+Body:
+comment: <p>Test</p>
+lead_id: 78872
+disposition: Wrong No.
+disposition_id: 3
+follow_up_time: 2026-07-10T15:15
+
+Response:
+{
+    "status": 200,
+    "message": "comment Successfully",
+    "comment": {
+        "comment": "<p>Test<\/p>",
+        "lead_id": "78872",
+        "disposition": "Wrong No.",
+        "follow_up_time": "2026-07-10 15:15:00",
+        "admin_id": 7,
+        "updated_at": "2026-06-30T10:01:02.000000Z",
+        "created_at": "2026-06-30T10:01:02.000000Z",
+        "id": 46156
+    }
+}

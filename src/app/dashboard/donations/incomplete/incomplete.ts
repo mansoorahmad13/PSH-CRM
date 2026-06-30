@@ -11,6 +11,7 @@ import { catchError, combineLatest, debounceTime, distinctUntilChanged, EMPTY, f
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { dispositions, donationAmounts, pagesOption } from '../donation.variables';
 import { ConfirmDialog } from "../../../shared/confirm-dialog/confirm-dialog";
+import { CommentDialog, CommentResult } from "../../../shared/comment-dialog/comment-dialog";
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -101,7 +102,10 @@ export class Incomplete implements OnInit, OnDestroy {
         this.leads.set(resp.leads.data)
         this.loading.set(false)
       }),
-      error: (err => console.log(err))
+      error: (err) => {
+        console.log(err)
+        this.snackbarError('Could not retrieve leads!')
+      }
     })
   }
 
@@ -143,6 +147,7 @@ export class Incomplete implements OnInit, OnDestroy {
         error: (err) => {
           console.log(err)
           this.lockPage.set(false)
+          this.snackbarError('Could not delete lead!')
         }
       })
     })
@@ -165,6 +170,47 @@ export class Incomplete implements OnInit, OnDestroy {
         l => l.id
       ))
     }
+  }
+
+  changeDisposition(lead: DonationType, dispositionId: number) {
+    const ref = this.dialog.open(CommentDialog, {
+      data: { title: 'Add Comment' }
+    })
+
+    ref.afterClosed().subscribe((result?: CommentResult) => {
+      if (!result) {
+        this.refresh$.next()
+        return
+      }
+
+      this.lockPage.set(true)
+      const dispositionName = this.dispositions().find((disp) => disp.value === dispositionId)
+      this.donationService.changeDisposition(lead.id, result.comment, dispositionName?.label, dispositionId, result.followUp).subscribe(
+        {
+          next: () => {
+            this.refresh$.next()
+            this.lockPage.set(false)
+            this.snackBar.open('Disposition updated', 'Dismiss', {
+              duration: 3000,
+              panelClass: ['app-snackbar', 'app-snackbar-success'],
+            })
+          },
+          error: (err) => {
+            console.log(err)
+            this.refresh$.next()
+            this.lockPage.set(false)
+            this.snackbarError('Could not update disposition')
+          }
+        }
+      )
+    })
+  }
+
+  snackbarError(msg: string) {
+    this.snackBar.open(msg, 'Dismiss', {
+      duration: 4000,
+      panelClass: ['app-snackbar', 'app-snackbar-error'],
+    });
   }
 
   ngOnDestroy(): void {

@@ -283,6 +283,17 @@ a:hover { color: var(--c-accent); }
   transform: translateY(-1px);
 }
 .btn:active { transform: translateY(0); }
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  filter: grayscale(0.3);
+}
+.btn:disabled:hover {
+  box-shadow: none;
+  transform: none;
+}
 
 .btn-primary {
   border: none;
@@ -437,8 +448,28 @@ a:hover { color: var(--c-accent); }
 }
 
 /* Toggle (calendar icon) in the form field */
-.mat-datepicker-toggle {
+.mat-datepicker-toggle,
+.mat-timepicker-toggle {
   color: var(--c-text-muted);
+}
+
+/* Timepicker dropdown panel */
+.mat-timepicker-panel {
+  background-color: var(--c-bg-700) !important;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+.mat-timepicker-panel .mat-timepicker-option {
+  color: var(--c-text);
+}
+.mat-timepicker-panel .mat-timepicker-option:hover,
+.mat-timepicker-panel .mat-timepicker-option.mat-timepicker-option-active {
+  background-color: var(--c-row-hover);
+}
+.mat-timepicker-panel .mat-timepicker-option[aria-selected="true"] {
+  background-color: rgba(91, 140, 255, 0.16);
+  color: var(--c-primary-400);
 }
 
 /* ---- 8. NATIVE SELECT ------------------------------------------------------
@@ -526,6 +557,63 @@ select optgroup {
   border: 1px solid var(--c-border);
   border-radius: var(--radius-lg) !important;
   box-shadow: var(--shadow-lg) !important;
+  overflow: hidden !important;   /* no scrollbar; content manages its own */
+}
+/* Dimmed, blurred backdrop behind dialogs */
+.cdk-overlay-backdrop.cdk-overlay-dark-backdrop {
+  background: rgba(4, 7, 16, 0.62);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+/* ---- 12. QUILL RICH-TEXT EDITOR -------------------------------------------
+   ngx-quill renders the snow theme (light) — recolor it to the app theme.   */
+quill-editor { display: block; }
+.ql-toolbar.ql-snow,
+.ql-container.ql-snow {
+  border-color: var(--c-border) !important;
+}
+.ql-toolbar.ql-snow {
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+  background: var(--c-input-bg);
+}
+.ql-container.ql-snow {
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+  background: var(--c-input-bg);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+}
+.ql-editor {
+  min-height: 150px;
+  max-height: 300px;
+  color: var(--c-text);
+}
+/* focus highlight on the editor */
+.ql-container.ql-snow:focus-within {
+  border-color: var(--c-primary-500) !important;
+  box-shadow: var(--glow-primary);
+}
+.ql-editor.ql-blank::before {
+  color: var(--c-text-faint);
+  font-style: normal;
+}
+/* toolbar icons + dropdowns */
+.ql-snow .ql-stroke { stroke: var(--c-text-muted); }
+.ql-snow .ql-fill { fill: var(--c-text-muted); }
+.ql-snow .ql-picker { color: var(--c-text-muted); }
+.ql-snow.ql-toolbar button:hover .ql-stroke,
+.ql-snow.ql-toolbar button.ql-active .ql-stroke {
+  stroke: var(--c-primary-400);
+}
+.ql-snow.ql-toolbar button:hover .ql-fill,
+.ql-snow.ql-toolbar button.ql-active .ql-fill {
+  fill: var(--c-primary-400);
+}
+.ql-snow.ql-toolbar button:hover,
+.ql-snow.ql-toolbar button.ql-active {
+  color: var(--c-primary-400);
 }
 
 /* ---- 11. MAT-SNACKBAR (toast) ---------------------------------------------
@@ -547,6 +635,10 @@ select optgroup {
 /* success accent */
 .app-snackbar-success .mdc-snackbar__surface {
   border-left: 3px solid var(--c-success);
+}
+/* error accent */
+.app-snackbar-error .mdc-snackbar__surface {
+  border-left: 3px solid var(--c-danger);
 }
 
 /* Toolbar date-range field — flatten to match the plain toolbar inputs
