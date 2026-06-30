@@ -31,7 +31,6 @@
 
     <button type="button" class="btn btn-ghost" (click)="clearFilters()">Clear</button>
     @if(selectedLeads().length > 0){
-      <!-- TODO: Delete Lead Functionality -->
       <button type="button" class="btn btn-danger" (click)="deleteLead()">Delete ({{ selectedLeads().length }})</button>
     }
   </div>
@@ -184,4 +183,11 @@
       </div>
     </div>
   </div>
+
+  <!-- Full-page lock overlay (e.g. while a delete is in flight) -->
+  @if (lockPage()) {
+    <div class="page-lock" role="alert" aria-busy="true" aria-live="assertive">
+      <div class="page-lock__spinner" aria-hidden="true"></div>
+    </div>
+  }
 </section>

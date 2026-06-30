@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { inject, Service } from '@angular/core';
 import { apiPath } from '../../app.variables';
-import { IncompleteLeadsResp } from './donation.model';
+import { DeleteLeadResp, IncompleteLeadsResp } from './donation.model';
 
 @Service()
 export class Donation {
@@ -33,6 +33,12 @@ export class Donation {
             disposition_id: disposition
         }
         return this.httpClient.post<IncompleteLeadsResp>(apiPath + 'leads', apiData)
+    }
+
+    deleteLeads(leadIds: number[]) {
+        return this.httpClient.post<DeleteLeadResp>(`${apiPath}delete_lead`, {
+            ids: leadIds.toString()
+        })
     }
 
 }

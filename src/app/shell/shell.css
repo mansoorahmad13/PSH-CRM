@@ -3,7 +3,7 @@
 .shell {
   display: grid;
   grid-template-columns: 264px 1fr;
-  min-height: 100dvh;
+  height: 100dvh;            /* lock to viewport so content scrolls internally */
   transition: grid-template-columns var(--dur) var(--ease);
 }
 
@@ -173,7 +173,10 @@
 /* ==================== CONTENT ==================== */
 .shell__content {
   padding: var(--space-6);
-  overflow-y: auto;
+  min-height: 0;        /* let children bound their own height for scrolling */
+  overflow: hidden;     /* the table wrapper scrolls, not the whole page */
+  display: flex;
+  flex-direction: column;
 }
 
 /* ==================== RESPONSIVE ==================== */

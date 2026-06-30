@@ -56,6 +56,4 @@ export const dispositions = [
     },
 ]
 
-export const pagesOption = [
-    25, 50, 100, 200
-]
+export const pagesOption = [25, 50, 100, 200]

@@ -61,3 +61,8 @@ export interface DonationType {
         type: string;
         updated_at: string;
 }
+
+export interface DeleteLeadResp {
+    message: string;
+    status: number
+}

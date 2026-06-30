@@ -1,13 +1,50 @@
 /* Donations table — themed with global tokens from styles.css */
 
+/* The component host sits between .shell__content and .leads — make it fill
+   the flex parent so the height chain reaches the table scroll region. */
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
 .leads {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  flex: 1;             /* fill the host */
+  min-height: 0;
+}
+
+/* ==================== FULL-PAGE LOCK OVERLAY ==================== */
+.page-lock {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 9, 18, 0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  cursor: progress;
+}
+.page-lock__spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.18);
+  border-top-color: var(--c-primary-500);
+  border-radius: 50%;
+  animation: page-lock-spin 0.7s linear infinite;
+}
+@keyframes page-lock-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ==================== TOOLBAR ==================== */
 .leads__toolbar {
+  flex: none;            /* stays fixed; never scrolls or shrinks */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -51,8 +88,15 @@
 }
 
 /* ==================== TABLE CARD ==================== */
-.leads__card { padding: var(--space-4); }
+.leads__card {
+  flex: 1;               /* fills remaining height */
+  min-height: 0;         /* allow the inner scroll area to shrink */
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+}
 .leads__cardhead {
+  flex: none;
   display: flex;
   justify-content: flex-end;
   margin-bottom: var(--space-3);
@@ -69,8 +113,12 @@
   width: 92px;
 }
 
-/* Horizontal scroll wrapper — keeps wide table from breaking layout */
-.leads__scroll { overflow-x: auto; }
+/* The only scrolling region — table scrolls here (both axes), toolbar/footer stay put */
+.leads__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
 
 .leads__table {
   width: 100%;
@@ -219,6 +267,7 @@
 
 /* ==================== PAGINATION ==================== */
 .leads__foot {
+  flex: none;            /* stays fixed below the scrolling table */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
