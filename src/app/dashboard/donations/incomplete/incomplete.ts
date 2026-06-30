@@ -9,7 +9,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { catchError, combineLatest, debounceTime, distinctUntilChanged, EMPTY, filter, startWith, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { donationAmounts } from '../donation.variables';
+import { dispositions, donationAmounts } from '../donation.variables';
 
 @Component({
   selector: 'app-incomplete',
@@ -30,6 +30,9 @@ export class Incomplete implements OnInit {
 
   leads = signal<DonationType[]>([])
   loading = signal<boolean>(false)
+  
+  donationAmountOptions = signal(donationAmounts)
+  dispositions = signal(dispositions)
 
   // From / To date range for filtering
   range = new FormGroup({
@@ -40,8 +43,9 @@ export class Incomplete implements OnInit {
     nonNullable: true
   })
   amount =  new FormControl<number | null>(null)
+  disposition = new FormControl<number | null>(null)
 
-  donationAmountOptions = signal(donationAmounts)
+
 
   ngOnInit(): void {
 
@@ -52,16 +56,19 @@ export class Incomplete implements OnInit {
         startWith('')
       ),
       this.range.valueChanges.pipe(
-        filter(({start, end}) => !!start && !!end),
+        filter(({start, end}) => (!!start && !!end) || (!start && !end)),
         startWith(this.range.value)
       ),
       this.amount.valueChanges.pipe(
         startWith(null)
+      ),
+      this.disposition.valueChanges.pipe(
+        startWith(null)
       )    
     ]).pipe(
       tap(() => this.loading.set(true)),
-      switchMap(([search, {start, end}, amount]) => {
-        return this.donationService.getIncompleteDonations(start, end, search, amount).pipe(
+      switchMap(([search, {start, end}, amount, disposition]) => {
+        return this.donationService.getIncompleteDonations(start, end, search, amount, disposition).pipe(
           catchError((err) => {
             console.log(err)
             this.loading.set(false)
@@ -78,6 +85,16 @@ export class Incomplete implements OnInit {
       }),
       error: (err => console.log(err))
     })
+  }
+
+  clearFilters() {
+    this.range.setValue({
+      start: null,
+      end: null
+    })
+    this.amount.setValue(null)
+    this.disposition.setValue(null)
+    this.search.setValue('')
   }
 
 }

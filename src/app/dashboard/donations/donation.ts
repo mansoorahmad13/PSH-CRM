@@ -12,7 +12,8 @@ export class Donation {
         start: Date | null = null, 
         end: Date | null = null,
         search: string = '',
-        amount: number | null = null
+        amount: number | null = null,
+        disposition: number | null = null
     ) {
         const apiData = {
             action: 'getEmailLeads',
@@ -28,6 +29,7 @@ export class Donation {
                 { data: 'amount' },
             ]),
             amount,
+            disposition_id: disposition
         }
         return this.httpClient.post<IncompleteLeadsResp>(apiPath + 'leads', apiData)
     }

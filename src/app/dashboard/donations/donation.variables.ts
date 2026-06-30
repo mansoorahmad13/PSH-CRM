@@ -24,3 +24,34 @@ export const donationAmounts = [
         value: 1001
     },
 ]
+
+export const dispositions = [
+    {
+        label: "Not Contacted",
+        value: 0,
+    },
+    {
+        label: "Call Back",
+        value: 1,
+    },
+    {
+        label: "No Response",
+        value: 2,
+    },
+    {
+        label: "Wrong No.",
+        value: 3,
+    },
+    {
+        label: "Already Donated",
+        value: 4,
+    },
+    {
+        label: "Contacted",
+        value: 5,
+    },
+    {
+        label: "Duplicate",
+        value: 6,
+    },
+]

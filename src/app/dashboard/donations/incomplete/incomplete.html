@@ -21,18 +21,15 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- TODO: bind the filter selects (formControl / [(value)]) -->
     <mat-form-field appearance="outline" class="toolbar__field" subscriptSizing="dynamic">
-      <mat-select placeholder="Disposition" panelClass="app-select-panel">
-        <mat-option value="Not Contacted">Not Contacted</mat-option>
-        <mat-option value="Contacted">Contacted</mat-option>
-        <mat-option value="Already Donated">Already Donated</mat-option>
-        <mat-option value="Wrong No.">Wrong No.</mat-option>
+      <mat-select placeholder="Disposition" panelClass="app-select-panel" [formControl]="disposition">
+        @for (disposition of dispositions(); track disposition.value) {
+          <mat-option [value]="disposition.value">{{ disposition.label }}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
-    <!-- TODO: (click)="clearFilters()" -->
-    <button type="button" class="btn btn-ghost">Clear</button>
+    <button type="button" class="btn btn-ghost" (click)="clearFilters()">Clear</button>
   </div>
 
   <!-- ==================== TABLE CARD ==================== -->
