@@ -1,20 +1,13 @@
 /* Donations table — themed with global tokens from styles.css */
 
-/* The component host sits between .shell__content and .leads — make it fill
-   the flex parent so the height chain reaches the table scroll region. */
 :host {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0;
+  display: block;
 }
 
 .leads {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  flex: 1;             /* fill the host */
-  min-height: 0;
 }
 
 /* ==================== FULL-PAGE LOCK OVERLAY ==================== */
@@ -42,9 +35,33 @@
   to { transform: rotate(360deg); }
 }
 
-/* ==================== TOOLBAR ==================== */
+/* ==================== PAGE HEADER ==================== */
+.leads__header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.leads__heading {
+  margin: 0;
+  font-size: var(--text-2xl);
+  background: linear-gradient(90deg, var(--c-text), var(--c-accent-soft));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.leads__subheading {
+  margin: 2px 0 0;
+  font-size: var(--text-sm);
+  color: var(--c-text-muted);
+}
+
+/* ==================== TOOLBAR (sticky to top of page) ==================== */
 .leads__toolbar {
-  flex: none;            /* stays fixed; never scrolls or shrinks */
+  position: sticky;
+  top: 0;
+  z-index: 20;           /* stay above the scrolling table */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -89,14 +106,20 @@
 
 /* ==================== TABLE CARD ==================== */
 .leads__card {
-  flex: 1;               /* fills remaining height */
-  min-height: 0;         /* allow the inner scroll area to shrink */
-  display: flex;
-  flex-direction: column;
+  position: relative;
   padding: var(--space-4);
+  overflow: hidden;      /* clip the table to the card's rounded corners */
+}
+/* glowing accent rail along the top edge */
+.leads__card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--c-primary-500), var(--c-accent), transparent);
+  opacity: 0.8;
 }
 .leads__cardhead {
-  flex: none;
   display: flex;
   justify-content: flex-end;
   margin-bottom: var(--space-3);
@@ -113,11 +136,9 @@
   width: 92px;
 }
 
-/* The only scrolling region — table scrolls here (both axes), toolbar/footer stay put */
+/* Horizontal scroll wrapper — keeps a wide table from breaking layout */
 .leads__scroll {
-  flex: 1;
-  min-height: 0;
-  overflow: auto;
+  overflow-x: auto;
 }
 
 .leads__table {
@@ -127,35 +148,55 @@
   white-space: nowrap;
 }
 .leads__table th {
-  position: sticky;
-  top: 0;
   text-align: left;
-  padding: var(--space-3);
-  font-weight: 600;
+  padding: var(--space-4);
+  font-weight: 700;
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.07em;
   color: var(--c-accent-soft);
   background: var(--c-th-bg);
   border-bottom: 1px solid var(--c-border-strong);
 }
 .leads__table td {
-  padding: var(--space-3);
+  padding: 14px var(--space-4);
   color: var(--c-text);
   border-bottom: 1px solid var(--c-border);
   vertical-align: middle;
 }
-.leads__table tbody tr {
+/* subtle zebra striping */
+.leads__table tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.014);
+}
+.leads__table tbody tr td {
   transition: background var(--dur-fast) var(--ease);
 }
-.leads__table tbody tr:hover {
+.leads__table tbody tr:hover td {
   background: var(--c-row-hover);
+}
+/* neon accent on the left edge of the hovered row */
+.leads__table tbody tr td:first-child {
+  box-shadow: inset 3px 0 0 transparent;
+  transition: box-shadow var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.leads__table tbody tr:hover td:first-child {
+  box-shadow: inset 3px 0 0 var(--c-primary-500);
 }
 
 .col-check { width: 36px; text-align: center; }
 
-.cell-id { font-weight: 600; color: var(--c-primary-400); }
-.cell-amount { font-weight: 600; }
+/* Donation ID — monospace, accent (reads as a code/identifier) */
+.cell-id {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--c-accent-soft);
+}
+/* Amount — bold, digits aligned across rows */
+.cell-amount {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
 .cell-muted { color: var(--c-text-faint); text-align: center; }
 
 /* Lead info (stacked name / email / phone) */
@@ -300,6 +341,7 @@
 }
 .pager__btn.is-active {
   color: #fff;
-  background: var(--c-primary-600);
+  background: linear-gradient(135deg, var(--c-primary-600), var(--c-primary-500));
   border-color: transparent;
+  box-shadow: var(--glow-primary);
 }

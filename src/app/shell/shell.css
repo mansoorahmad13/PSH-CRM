@@ -2,14 +2,17 @@
 
 .shell {
   display: grid;
-  grid-template-columns: 264px 1fr;
-  height: 100dvh;            /* lock to viewport so content scrolls internally */
+  /* minmax(0, 1fr) lets the content column shrink below a wide table's
+     min-content width, so the table scrolls inside its wrapper instead of
+     widening the whole page. */
+  grid-template-columns: 264px minmax(0, 1fr);
+  min-height: 100dvh;        /* page scrolls; sidebar stays sticky */
   transition: grid-template-columns var(--dur) var(--ease);
 }
 
 /* Collapsed: icon-only rail */
 .shell.is-collapsed {
-  grid-template-columns: 76px 1fr;
+  grid-template-columns: 76px minmax(0, 1fr);
 }
 .shell.is-collapsed .nav__label,
 .shell.is-collapsed .nav__section,
@@ -173,10 +176,6 @@
 /* ==================== CONTENT ==================== */
 .shell__content {
   padding: var(--space-6);
-  min-height: 0;        /* let children bound their own height for scrolling */
-  overflow: hidden;     /* the table wrapper scrolls, not the whole page */
-  display: flex;
-  flex-direction: column;
 }
 
 /* ==================== RESPONSIVE ==================== */
