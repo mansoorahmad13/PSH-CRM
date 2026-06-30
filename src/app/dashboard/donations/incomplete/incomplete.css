@@ -225,9 +225,21 @@
   padding: 2px var(--space-2);
   font-size: var(--text-xs);
   font-weight: 600;
-  color: #fff;
-  background: var(--c-success);
   border-radius: var(--radius-sm);
+  /* > 1 day away (default) — soft green, readable in both themes */
+  color: var(--c-success);
+  background: color-mix(in srgb, var(--c-success) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c-success) 38%, transparent);
+}
+.badge-time--soon {                /* < 1 day away */
+  color: var(--c-warning);
+  background: color-mix(in srgb, var(--c-warning) 16%, transparent);
+  border-color: color-mix(in srgb, var(--c-warning) 38%, transparent);
+}
+.badge-time--missed {              /* follow-up time has passed */
+  color: var(--c-danger);
+  background: color-mix(in srgb, var(--c-danger) 16%, transparent);
+  border-color: color-mix(in srgb, var(--c-danger) 38%, transparent);
 }
 
 /* Comments icon button */

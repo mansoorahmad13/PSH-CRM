@@ -136,7 +136,6 @@
               <td>{{ lead.duration }}</td>
 
               <td>
-                <!-- TODO: add (selectionChange)="changeDisposition(lead, $event.value)" -->
                 <mat-form-field appearance="outline" class="toolbar__field disp-field" subscriptSizing="dynamic">
                   <mat-select 
                     panelClass="app-select-panel" 
@@ -152,9 +151,13 @@
 
               <td class="cell-follow">
                 @if (lead.follow_up_time) {
+                  @let fu = followUp(lead.follow_up_time);
                   <span>{{ lead.follow_up_time | date: 'MMM d, y' }}</span>
-                  <!-- TODO: compute remaining time from follow_up_time -->
-                  <span class="badge-time">— Days : — Hours</span>
+                  <span
+                    class="badge-time"
+                    [class.badge-time--soon]="fu.status === 'soon'"
+                    [class.badge-time--missed]="fu.status === 'missed'"
+                  >{{ fu.text }}</span>
                 } @else {
                   <span class="cell-muted">—</span>
                 }

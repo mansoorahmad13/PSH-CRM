@@ -206,6 +206,23 @@ export class Incomplete implements OnInit, OnDestroy {
     })
   }
 
+  followUp(followUpTime: string): { text: string; status: 'upcoming' | 'soon' | 'missed' } {
+    // stored as local "yyyy-MM-dd HH:mm:ss" — use 'T' so all browsers parse it as local
+    const target = new Date(followUpTime.replace(' ', 'T')).getTime();
+    const diffMs = target - Date.now();
+
+    const abs = Math.abs(diffMs);
+    const totalHours = Math.floor(abs / (1000 * 60 * 60));
+    const days = Math.floor(totalHours / 24);
+    const hours = totalHours % 24;
+    const duration = `${days} Days : ${hours} Hours`;
+
+    const ONE_DAY = 24 * 60 * 60 * 1000;
+    if (diffMs <= 0) return { text: `Missed by: ${duration}`, status: 'missed' };
+    if (diffMs < ONE_DAY) return { text: `${duration}`, status: 'soon' };
+    return { text: `${duration}`, status: 'upcoming' };
+  }
+
   snackbarError(msg: string) {
     this.snackBar.open(msg, 'Dismiss', {
       duration: 4000,
