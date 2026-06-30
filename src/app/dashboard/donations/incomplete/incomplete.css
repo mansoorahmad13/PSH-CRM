@@ -64,10 +64,9 @@
   font-size: var(--text-sm);
   color: var(--c-text-muted);
 }
-/* smaller inline select; inherits the global select look */
-.leads__pagesizeselect {
-  height: 34px;
-  border-radius: var(--radius-sm);
+/* compact page-size mat-select */
+.pagesize-field {
+  width: 92px;
 }
 
 /* Horizontal scroll wrapper — keeps wide table from breaking layout */
@@ -109,16 +108,14 @@
 
 .cell-id { font-weight: 600; color: var(--c-primary-400); }
 .cell-amount { font-weight: 600; }
-.cell-muted { color: var(--c-text-faint); }
+.cell-muted { color: var(--c-text-faint); text-align: center; }
 
 /* Lead info (stacked name / email / phone) */
 .cell-lead {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
   white-space: normal;
   min-width: 200px;
 }
+.cell-lead > span { display: block; }
 .cell-lead__name { font-weight: 600; }
 .cell-lead__sub {
   font-size: var(--text-xs);
@@ -126,14 +123,14 @@
 }
 
 /* Disposition select */
-/* disposition select inherits the global select look */
-
-/* Follow-up cell */
-.cell-follow {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
+/* in-table disposition (mat-select) */
+.disp-field {
+  width: 170px;
 }
+
+/* Follow-up cell — keep the <td> as a table-cell; stack children as blocks */
+.cell-follow > span { display: block; }
+.cell-follow .badge-time { margin-top: var(--space-1); }
 .badge-time {
   display: inline-block;
   padding: 2px var(--space-2);

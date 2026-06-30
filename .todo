@@ -1,0 +1,8 @@
+Delete API:
+For one:
+https://adminbackend.pakistansweethome.org.pk/api/delete_lead
+POST
+ids: 4572
+
+For multiple:
+ids: 78817,78818

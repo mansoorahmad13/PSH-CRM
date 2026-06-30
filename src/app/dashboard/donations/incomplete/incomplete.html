@@ -30,7 +30,7 @@
     </mat-form-field>
 
     <button type="button" class="btn btn-ghost" (click)="clearFilters()">Clear</button>
-    @if(selectedLeads().length){
+    @if(selectedLeads().length > 0){
       <!-- TODO: Delete Lead Functionality -->
       <button type="button" class="btn btn-danger" (click)="deleteLead()">Delete ({{ selectedLeads().length }})</button>
     }
@@ -42,11 +42,13 @@
     <div class="leads__cardhead">
       <label class="leads__pagesize">
         Show
-        <select class="leads__pagesizeselect" [formControl]="pages">
-          @for (page of pagesOptions(); track $index) {
-            <option [value]="page">{{ page }}</option>
-          }
-        </select>
+        <mat-form-field appearance="outline" class="toolbar__field pagesize-field" subscriptSizing="dynamic">
+          <mat-select [formControl]="pages" panelClass="app-select-panel">
+            @for (page of pagesOptions(); track page) {
+              <mat-option [value]="page">{{ page }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
         Records
       </label>
     </div>
@@ -58,7 +60,7 @@
             <th class="col-check">
               <input type="checkbox" 
                 (change)="toggleAllLeads()" 
-                [checked]="leads().length && selectedLeads().length === leads().length"
+                [checked]="leads().length > 0 && selectedLeads().length === leads().length"
               />
             </th>
             <th>Sr#</th>
@@ -120,22 +122,21 @@
                 <span class="cell-lead__sub">{{ lead.mobile }}</span>
               </td>
 
-              <td class="cell-amount">{{ lead.currency }} {{ lead.amount }}</td>
+              <td class="cell-amount">{{ lead.amount | currency: lead.currency }}</td>
 
-              <!-- TODO: confirm which field holds the donation purpose -->
               <td>{{ lead.nature ?? '—' }}</td>
 
               <td>{{ lead.duration }}</td>
 
               <td>
-                <!-- TODO: populate options from dispositions list,
-                     preselect current, (change)="changeDisposition(lead, $event)" -->
-                <select class="disp-select">
-                  <option>Not Contacted</option>
-                  <option>Contacted</option>
-                  <option>Already Donated</option>
-                  <option>Wrong No.</option>
-                </select>
+                <!-- TODO: add (selectionChange)="changeDisposition(lead, $event.value)" -->
+                <mat-form-field appearance="outline" class="toolbar__field disp-field" subscriptSizing="dynamic">
+                  <mat-select panelClass="app-select-panel" [value]="lead.disposition_id">
+                    @for (dispositionOption of dispositions(); track dispositionOption.value) {
+                      <mat-option [value]="dispositionOption.value">{{ dispositionOption.label }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
               </td>
 
               <td class="cell-follow">

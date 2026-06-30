@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { Donation } from '../donation';
 import { DonationType } from '../donation.model';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +15,7 @@ import { dispositions, donationAmounts, pagesOption } from '../donation.variable
   selector: 'app-incomplete',
   imports: [
     DatePipe,
+    CurrencyPipe,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,

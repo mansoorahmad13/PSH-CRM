@@ -490,6 +490,7 @@ select optgroup {
   border-radius: var(--radius-md) !important;
   box-shadow: var(--shadow-lg) !important;
   padding: var(--space-1) !important;
+  min-width: max-content;          /* grow to fit the longest option */
 }
 .app-select-panel .mat-mdc-option {
   min-height: 38px;
@@ -499,6 +500,7 @@ select optgroup {
 .app-select-panel .mat-mdc-option .mdc-list-item__primary-text {
   color: var(--c-text);
   font-size: var(--text-sm);
+  white-space: nowrap;             /* keep each label on one line */
 }
 /* hover / keyboard-active */
 .app-select-panel .mat-mdc-option:hover:not(.mdc-list-item--disabled),
