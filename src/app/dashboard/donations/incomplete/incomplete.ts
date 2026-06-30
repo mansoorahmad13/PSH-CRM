@@ -9,7 +9,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { catchError, combineLatest, debounceTime, distinctUntilChanged, EMPTY, filter, startWith, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { dispositions, donationAmounts } from '../donation.variables';
+import { dispositions, donationAmounts, pagesOption } from '../donation.variables';
 
 @Component({
   selector: 'app-incomplete',
@@ -29,10 +29,11 @@ export class Incomplete implements OnInit {
   private destroyRef = inject(DestroyRef)
 
   leads = signal<DonationType[]>([])
-  loading = signal<boolean>(false)
-  
+  loading = signal<boolean>(false)  
+
   donationAmountOptions = signal(donationAmounts)
   dispositions = signal(dispositions)
+  pagesOptions = signal(pagesOption)
 
   // From / To date range for filtering
   range = new FormGroup({
@@ -44,7 +45,9 @@ export class Incomplete implements OnInit {
   })
   amount =  new FormControl<number | null>(null)
   disposition = new FormControl<number | null>(null)
-
+  pages = new FormControl<number>(25, {
+    nonNullable: true
+  })
 
 
   ngOnInit(): void {
@@ -64,11 +67,14 @@ export class Incomplete implements OnInit {
       ),
       this.disposition.valueChanges.pipe(
         startWith(null)
+      ),
+      this.pages.valueChanges.pipe(
+        startWith(25)
       )    
     ]).pipe(
       tap(() => this.loading.set(true)),
-      switchMap(([search, {start, end}, amount, disposition]) => {
-        return this.donationService.getIncompleteDonations(start, end, search, amount, disposition).pipe(
+      switchMap(([search, {start, end}, amount, disposition, pages]) => {
+        return this.donationService.getIncompleteDonations(start, end, search, amount, disposition, pages).pipe(
           catchError((err) => {
             console.log(err)
             this.loading.set(false)

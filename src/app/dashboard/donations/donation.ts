@@ -13,11 +13,12 @@ export class Donation {
         end: Date | null = null,
         search: string = '',
         amount: number | null = null,
-        disposition: number | null = null
+        disposition: number | null = null,
+        pages: number = 25
     ) {
         const apiData = {
             action: 'getEmailLeads',
-            length: 25,
+            length: pages,
             from: start ? formatDate(start, 'yyyy-MM-dd', 'en-US') : null,
             to: end ? formatDate(end, 'yyyy-MM-dd', 'en-US') : null,
             any_thing: search,

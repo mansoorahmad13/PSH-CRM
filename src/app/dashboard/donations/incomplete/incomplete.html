@@ -38,11 +38,10 @@
     <div class="leads__cardhead">
       <label class="leads__pagesize">
         Show
-        <!-- TODO: (change)="setPageSize($event)" -->
-        <select class="leads__pagesizeselect">
-          <option>25</option>
-          <option>50</option>
-          <option>100</option>
+        <select class="leads__pagesizeselect" [formControl]="pages">
+          @for (page of pagesOptions(); track $index) {
+            <option [value]="page">{{ page }}</option>
+          }
         </select>
         Records
       </label>
