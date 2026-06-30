@@ -1,0 +1,40 @@
+.confirm {
+  text-align: center;
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  max-width: 380px;
+}
+
+.confirm__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: var(--space-4);
+  color: var(--c-danger);
+  background: rgba(251, 90, 106, 0.12);
+  border: 1px solid rgba(251, 90, 106, 0.30);
+  border-radius: 50%;
+}
+
+.confirm__title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+  color: var(--c-text);
+}
+
+.confirm__message {
+  margin: 0 0 var(--space-5);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--c-text-muted);
+}
+
+.confirm__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+}
+.confirm__actions .btn {
+  min-width: 110px;
+}

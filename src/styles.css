@@ -306,9 +306,8 @@ a:hover { color: var(--c-accent); }
   background: linear-gradient(135deg, var(--c-danger), #d63b4c);
 }
 .btn-danger:hover {
-  filter: brightness(1.06);
-  box-shadow: 0 0 0 1px rgba(251, 90, 106, 0.45),
-              0 8px 22px rgba(251, 90, 106, 0.35);
+  filter: brightness(1.05);
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.28);
 }
 
 /* Inputs */
@@ -517,6 +516,16 @@ select optgroup {
 /* the selected checkmark */
 .app-select-panel .mat-pseudo-checkbox-full {
   color: var(--c-primary-500) !important;
+}
+
+/* ---- 10. MAT-DIALOG --------------------------------------------------------
+   Dialogs render in a CDK overlay — theme the surface globally.             */
+.mat-mdc-dialog-container .mat-mdc-dialog-surface {
+  background-color: var(--c-bg-700) !important;
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
 }
 
 /* Toolbar date-range field — flatten to match the plain toolbar inputs

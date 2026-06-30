@@ -10,6 +10,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { catchError, combineLatest, debounceTime, distinctUntilChanged, EMPTY, filter, startWith, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { dispositions, donationAmounts, pagesOption } from '../donation.variables';
+import { ConfirmDialog } from "../../../shared/confirm-dialog/confirm-dialog";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-incomplete',
@@ -21,13 +23,15 @@ import { dispositions, donationAmounts, pagesOption } from '../donation.variable
     MatInputModule,
     MatDatepickerModule,
     MatSelectModule,
-  ],
+    MatDialogModule 
+],
   templateUrl: './incomplete.html',
   styleUrl: './incomplete.css',
 })
 export class Incomplete implements OnInit {
   private donationService = inject(Donation)
   private destroyRef = inject(DestroyRef)
+  private dialog = inject(MatDialog)
 
   leads = signal<DonationType[]>([])
   loading = signal<boolean>(false)  
@@ -105,6 +109,21 @@ export class Incomplete implements OnInit {
   }
 
   deleteLead() {
+    const ref = this.dialog.open(ConfirmDialog, {
+      data: {
+        title: "Delete leads?",
+        message: "Are you sure you want to delete the lead(s)?",
+        confirmText: "Delete",
+        cancelText: "Cancel"
+      }
+    })
+
+    ref.afterClosed().subscribe(confirmed => {
+      if(!confirmed){
+        return
+      }
+      
+    })
 
   }
 
